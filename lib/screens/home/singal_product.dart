@@ -7,7 +7,13 @@ class SingalProduct extends StatelessWidget {
   final String productName;
   final int productPrice;
   final Function onTap;
-  SingalProduct({this.productImage, this.productName,this.onTap,this.productPrice});
+  final String productId;
+  SingalProduct(
+      {this.productId,
+      this.productImage,
+      this.productName,
+      this.onTap,
+      this.productPrice});
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -26,7 +32,6 @@ class SingalProduct extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GestureDetector(
-                  
                   onTap: onTap,
                   child: Container(
                     height: 150,
@@ -64,35 +69,72 @@ class SingalProduct extends StatelessWidget {
                         Row(
                           children: [
                             Expanded(
-                              child: Container(
-                                padding: EdgeInsets.only(left: 5),
-                                height: 25,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                        child: Text(
-                                      '50 Gram',
-                                      style: TextStyle(fontSize: 11),
-                                    )),
-                                    Center(
-                                      child: Icon(
-                                        Icons.arrow_drop_down,
-                                        size: 20,
-                                        color: Colors.yellow,
-                                      ),
-                                    )
-                                  ],
+                              child: InkWell(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            ListTile(
+                                              title: new Text('50 Gram'),
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                            ListTile(
+                                              title: new Text('500 Gram'),
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                            ListTile(
+                                              title: new Text('1 Kg'),
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                          
+                                          ],
+                                        );
+                                      });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.only(left: 5),
+                                  height: 25,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                          child: Text(
+                                        '50 Gram',
+                                        style: TextStyle(fontSize: 11),
+                                      )),
+                                      Center(
+                                        child: Icon(
+                                          Icons.arrow_drop_down,
+                                          size: 20,
+                                          color: Colors.yellow,
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             SizedBox(
                               width: 5,
                             ),
-                           Count(),
+                            Count(
+                              productId: productId,
+                              productImage: productImage,
+                              productName: productName,
+                              productPrice: productPrice,
+                            ),
                           ],
                         ),
                       ],

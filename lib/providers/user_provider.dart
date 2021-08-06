@@ -22,4 +22,28 @@ class UserProvider with ChangeNotifier {
       },
     );
   }
+
+  UserModel currentData;
+
+  void getUserData() async {
+    UserModel userModel;
+    var value = await FirebaseFirestore.instance
+        .collection("usersData")
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .get();
+    if (value.exists) {
+      userModel = UserModel(
+        userEmail: value.get("userEmail"),
+        userImage: value.get("userImage"),
+        userName: value.get("userName"),
+        userUid: value.get("userUid"),
+      );
+      currentData = userModel;
+      notifyListeners();
+    }
+  }
+
+  UserModel get currentUserData {
+    return currentData;
+  }
 }

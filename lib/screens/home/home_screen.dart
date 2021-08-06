@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/config/colors.dart';
 import 'package:food_app/providers/product_provider.dart';
+import 'package:food_app/providers/user_provider.dart';
 import 'package:food_app/screens/product_overview/product_overview.dart';
 import 'package:food_app/screens/home/singal_product.dart';
+import 'package:food_app/screens/review_cart/review_cart.dart';
 import 'package:food_app/screens/search/search.dart';
 import 'package:provider/provider.dart';
 import 'drawer_side.dart';
@@ -53,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => ProductOverview(
+                          productId: herbsProductData.productId,
                           productPrice: herbsProductData.productPrice,
                           productName: herbsProductData.productName,
                           productImage: herbsProductData.productImage,
@@ -60,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   },
+                  productId: herbsProductData.productId,
                   productPrice: herbsProductData.productPrice,
                   productImage: herbsProductData.productImage,
                   productName: herbsProductData.productName,
@@ -113,6 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => ProductOverview(
+                          productId: freshProductData.productId,
                           productImage: freshProductData.productImage,
                           productName: freshProductData.productName,
                           productPrice: freshProductData.productPrice,
@@ -120,31 +125,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   },
+                  productId: freshProductData.productId,
                   productImage: freshProductData.productImage,
                   productName: freshProductData.productName,
                   productPrice: freshProductData.productPrice,
                 );
               },
             ).toList(),
-            // children: [
-            // SingalProduct(
-            //   onTap: () {
-            //     Navigator.of(context).push(
-            //       MaterialPageRoute(
-            //         builder: (context) => ProductOverview(
-            //           productName: "Berries",
-            //           productImage:
-            //               'https://lh3.googleusercontent.com/proxy/i_EgTfhbIIwDmoDavYI1qwH-4CNtDMHQYEU6JCKx59R_OkdWhqTsOUtSLHIOUh4ZX9GZBY1tAqtTIcIIWjmk96P3gDzgpd9veIzZTdvSPfsMhSvFjJ9c-hnHrotmDNTrHFts7Dc',
-            //         ),
-            //       ),
-            //     );
-            //   },
-            //   productImage:
-            //       'https://lh3.googleusercontent.com/proxy/i_EgTfhbIIwDmoDavYI1qwH-4CNtDMHQYEU6JCKx59R_OkdWhqTsOUtSLHIOUh4ZX9GZBY1tAqtTIcIIWjmk96P3gDzgpd9veIzZTdvSPfsMhSvFjJ9c-hnHrotmDNTrHFts7Dc',
-            //   productName: "Berries",
-            // ),
-
-            // ],
           ),
         ),
       ],
@@ -189,6 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => ProductOverview(
+                          productId: rootProductData.productId,
                           productImage: rootProductData.productImage,
                           productName: rootProductData.productName,
                           productPrice: rootProductData.productPrice,
@@ -196,6 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   },
+                  productId: rootProductData.productId,
                   productImage: rootProductData.productImage,
                   productName: rootProductData.productName,
                   productPrice: rootProductData.productPrice,
@@ -220,8 +209,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     productProvider = Provider.of(context);
+    UserProvider userProvider = Provider.of(context);
+    userProvider.getUserData();
     return Scaffold(
-      drawer: DrawerSide(),
+      drawer: DrawerSide(
+        userProvider: userProvider,
+      ),
       appBar: AppBar(
         iconTheme: IconThemeData(color: textColor),
         title: Text(
@@ -236,9 +229,8 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => Search(
-                      search: productProvider.gerAllProductSearch
-                    ),
+                    builder: (context) =>
+                        Search(search: productProvider.gerAllProductSearch),
                   ),
                 );
               },
@@ -251,10 +243,23 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: CircleAvatar(
-              backgroundColor: Color(0xffd6d382),
-              radius: 15,
-              child: Icon(Icons.shop, size: 17, color: textColor),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ReviewCart(),
+                  ),
+                );
+              },
+              child: CircleAvatar(
+                backgroundColor: Color(0xffd6d382),
+                radius: 15,
+                child: Icon(
+                  Icons.shop,
+                  size: 17,
+                  color: textColor,
+                ),
+              ),
             ),
           ),
         ],
