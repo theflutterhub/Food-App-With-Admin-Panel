@@ -32,7 +32,7 @@ class _SingleItemState extends State<SingleItem> {
   ReviewCartProvider reviewCartProvider;
 
   int count;
-  getCounts() {
+  getCount() {
     setState(() {
       count = widget.productQuantity;
     });
@@ -40,7 +40,7 @@ class _SingleItemState extends State<SingleItem> {
 
   @override
   Widget build(BuildContext context) {
-    getCounts();
+    getCount();
     reviewCartProvider = Provider.of<ReviewCartProvider>(context);
     reviewCartProvider.getReviewCartData();
     return Column(
