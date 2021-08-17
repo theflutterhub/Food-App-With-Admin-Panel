@@ -14,9 +14,11 @@ class SingleItem extends StatefulWidget {
   String productId;
   int productQuantity;
   Function onDelete;
+  var productUnit;
   SingleItem(
       {this.productQuantity,
       this.productId,
+      this.productUnit,
       this.onDelete,
       this.isBool,
       this.productImage,
@@ -128,7 +130,7 @@ class _SingleItemState extends State<SingleItem> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        "50 Gram",
+                                       "50 Gram",
                                         style: TextStyle(
                                           color: Colors.grey,
                                           fontSize: 14,
@@ -146,7 +148,7 @@ class _SingleItemState extends State<SingleItem> {
                                 ),
                               ),
                             )
-                          : Text("50 Gram")
+                          : Text(widget.productUnit)
                     ],
                   ),
                 ),

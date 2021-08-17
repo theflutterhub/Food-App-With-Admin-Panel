@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_app/config/colors.dart';
 import 'package:food_app/models/review_cart_model.dart';
 import 'package:food_app/providers/review_cart_provider.dart';
+import 'package:food_app/screens/check_out/delivery_details/delivery_details.dart';
 import 'package:food_app/widgets/single_item.dart';
 import 'package:provider/provider.dart';
 
@@ -50,7 +52,7 @@ class ReviewCart extends StatelessWidget {
       bottomNavigationBar: ListTile(
         title: Text("Total Aount"),
         subtitle: Text(
-          "\$ 170.00",
+          "\$ ${reviewCartProvider.getTotalPrice()}",
           style: TextStyle(
             color: Colors.green[900],
           ),
@@ -65,7 +67,16 @@ class ReviewCart extends StatelessWidget {
                 30,
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              if(reviewCartProvider.getReviewCartDataList.isEmpty){
+                return Fluttertoast.showToast(msg: "No Cart Data Found");
+              }
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => DeliveryDetails(),
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -97,6 +108,7 @@ class ReviewCart extends StatelessWidget {
                       productPrice: data.cartPrice,
                       productId: data.cartId,
                       productQuantity: data.cartQuantity,
+                      productUnit: data.cartUnit,
                       onDelete: () {
                         showAlertDialog(context, data);
                       },
