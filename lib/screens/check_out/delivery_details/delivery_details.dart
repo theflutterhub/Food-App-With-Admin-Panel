@@ -3,8 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:food_app/config/colors.dart';
 import 'package:food_app/screens/check_out/add_delivery_address/add_delivery_address.dart';
 import 'package:food_app/screens/check_out/delivery_details/single_delivery_item.dart';
+import 'package:food_app/screens/check_out/payment_summary/payment_summary.dart';
 
 class DeliveryDetails extends StatelessWidget {
+  List<Widget> address = [
+    SingleDeliveryItem(
+      address:
+          "aera, balochistan/pakistan, Dara Bugti, street, 20, society 07, pincode 8000",
+      title: "Assar Developer",
+      number: "+923352062349",
+      addressType: "Home",
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,20 +25,34 @@ class DeliveryDetails extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: primaryColor,
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => AddDeliverAddress(),
+            ),
+          );
+        },
       ),
       bottomNavigationBar: Container(
         // width: 160,
         height: 48,
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: MaterialButton(
-          child: Text("Add new Address"),
+          child: address.isEmpty
+              ? Text("Add new Address")
+              : Text("Payment Summary"),
           onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => AddDeliverAddress(),
-              ),
-            );
+            address.isEmpty
+                ? Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => AddDeliverAddress(),
+                    ),
+                  )
+                : Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => PaymentSummary(),
+                    ),
+                  );
           },
           color: primaryColor,
           shape: RoundedRectangleBorder(
@@ -41,23 +66,22 @@ class DeliveryDetails extends StatelessWidget {
         children: [
           ListTile(
             title: Text("Deliver To"),
-            leading: Image.asset(
-              "assets/lacation.png",
-              height: 30,
-            ),
+          
           ),
           Divider(
             height: 1,
           ),
           Column(
             children: [
-              SingleDeliveryItem(
-                address:
-                    "aera, balochistan/pakistan, Dara Bugti, street, 20, society 07, pincode 8000",
-                title: "Assar Developer",
-                number: "+923352062349",
-                addressType: "Home",
-              ),
+              address.isEmpty
+                  ? Container()
+                  : SingleDeliveryItem(
+                      address:
+                          "aera, balochistan/pakistan, Dara Bugti, street, 20, society 07, pincode 8000",
+                      title: "Assar Developer",
+                      number: "+923352062349",
+                      addressType: "Home",
+                    ),
             ],
           )
         ],

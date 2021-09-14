@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/config/colors.dart';
+import 'package:food_app/providers/check_out_provider.dart';
 import 'package:food_app/widgets/costom_text_field.dart';
+import 'package:provider/provider.dart';
 
 class AddDeliverAddress extends StatefulWidget {
   @override
@@ -17,6 +19,7 @@ class _AddDeliverAddressState extends State<AddDeliverAddress> {
   var myType = AddressTypes.Home;
   @override
   Widget build(BuildContext context) {
+    CheckoutProvider checkoutProvider = Provider.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -27,8 +30,10 @@ class _AddDeliverAddressState extends State<AddDeliverAddress> {
       bottomNavigationBar: Container(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         height: 48,
-        child: MaterialButton(
-          onPressed: () {},
+        child:checkoutProvider.isloadding==false? MaterialButton(
+          onPressed: () {
+            checkoutProvider.validator(context,myType);
+          },
           child: Text(
             "Add Address",
             style: TextStyle(
@@ -41,6 +46,8 @@ class _AddDeliverAddressState extends State<AddDeliverAddress> {
               30,
             ),
           ),
+        ):Center(
+          child: CircularProgressIndicator(),
         ),
       ),
       body: Padding(
@@ -51,33 +58,43 @@ class _AddDeliverAddressState extends State<AddDeliverAddress> {
           children: [
             CostomTextField(
               labText: "First name",
+              controller: checkoutProvider.firstName,
             ),
             CostomTextField(
               labText: "Last name",
+              controller: checkoutProvider.lastName,
             ),
             CostomTextField(
               labText: "Mobile No",
+              controller: checkoutProvider.mobileNo,
             ),
             CostomTextField(
               labText: "Alternate Mobile No",
+              controller: checkoutProvider.alternateMobileNo,
             ),
             CostomTextField(
               labText: "Scoiety",
+              controller: checkoutProvider.scoiety,
             ),
             CostomTextField(
               labText: "Street",
+              controller: checkoutProvider.street,
             ),
             CostomTextField(
               labText: "Landmark",
+              controller: checkoutProvider.landmark,
             ),
             CostomTextField(
               labText: "City",
+              controller: checkoutProvider.city,
             ),
             CostomTextField(
               labText: "Aera",
+              controller: checkoutProvider.aera,
             ),
             CostomTextField(
               labText: "Pincode",
+              controller: checkoutProvider.pincode,
             ),
             InkWell(
               onTap: () {},
