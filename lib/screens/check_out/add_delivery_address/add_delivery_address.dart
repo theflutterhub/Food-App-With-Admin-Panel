@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/config/colors.dart';
 import 'package:food_app/providers/check_out_provider.dart';
+import 'package:food_app/screens/check_out/google_map/google_map.dart';
 import 'package:food_app/widgets/costom_text_field.dart';
 import 'package:provider/provider.dart';
 
@@ -30,25 +31,27 @@ class _AddDeliverAddressState extends State<AddDeliverAddress> {
       bottomNavigationBar: Container(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         height: 48,
-        child:checkoutProvider.isloadding==false? MaterialButton(
-          onPressed: () {
-            checkoutProvider.validator(context,myType);
-          },
-          child: Text(
-            "Add Address",
-            style: TextStyle(
-              color: textColor,
-            ),
-          ),
-          color: primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              30,
-            ),
-          ),
-        ):Center(
-          child: CircularProgressIndicator(),
-        ),
+        child: checkoutProvider.isloadding == false
+            ? MaterialButton(
+                onPressed: () {
+                  checkoutProvider.validator(context, myType);
+                },
+                child: Text(
+                  "Add Address",
+                  style: TextStyle(
+                    color: textColor,
+                  ),
+                ),
+                color: primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    30,
+                  ),
+                ),
+              )
+            : Center(
+                child: CircularProgressIndicator(),
+              ),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -97,7 +100,13 @@ class _AddDeliverAddressState extends State<AddDeliverAddress> {
               controller: checkoutProvider.pincode,
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+               Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CostomGoogleMap(),
+                  ),
+                );
+              },
               child: Container(
                 height: 47,
                 width: double.infinity,
@@ -105,7 +114,8 @@ class _AddDeliverAddressState extends State<AddDeliverAddress> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Set Loaction"),
+                    checkoutProvider.setLoaction == null? Text("Set Loaction"):
+                    Text("Done!"),
                   ],
                 ),
               ),
