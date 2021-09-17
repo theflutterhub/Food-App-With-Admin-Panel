@@ -36,7 +36,6 @@ dependencies:
   fluttertoast: ^8.0.8
   location:
   google_maps_flutter:
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
