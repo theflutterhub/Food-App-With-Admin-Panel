@@ -43,7 +43,6 @@ class _GoogleMapState extends State<CostomGoogleMap> {
                 ),
                 mapType: MapType.normal,
                 onMapCreated: _onMapCreated,
-                myLocationEnabled: true,
               ),
               Positioned(
                 bottom: 0,
