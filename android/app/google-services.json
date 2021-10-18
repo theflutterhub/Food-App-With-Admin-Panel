@@ -30,6 +30,14 @@
           }
         },
         {
+          "client_id": "740313953886-l2qti3c0neufcvodg6cdpqn40hs1pqh8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.my_food_app",
+            "certificate_hash": "b844ae838a73aa7aebe25ccd408fc6ee8ddbc3bb"
+          }
+        },
+        {
           "client_id": "740313953886-lfc69p5rsbhvm7dp0bg5dkdstfiu53so.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -43,7 +51,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "740313953886-lfc69p5rsbhvm7dp0bg5dkdstfiu53so.apps.googleusercontent.com",
+              "client_id": "740313953886-ldsvnfkkn713h426v2f1rg0etj7hrg6m.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

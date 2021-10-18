@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/config/colors.dart';
+import 'package:food_app/models/delivery_address_model.dart';
+import 'package:food_app/providers/review_cart_provider.dart';
+import 'package:food_app/screens/check_out/delivery_details/single_delivery_item.dart';
+import 'package:food_app/screens/check_out/payment_summary/my_google_pay.dart';
 import 'package:food_app/screens/check_out/payment_summary/order_item.dart';
+import 'package:provider/provider.dart';
 
 class PaymentSummary extends StatefulWidget {
+  final DeliveryAddressModel deliverAddressList;
+  PaymentSummary({this.deliverAddressList});
+
   @override
   _PaymentSummaryState createState() => _PaymentSummaryState();
 }
@@ -17,6 +25,19 @@ class _PaymentSummaryState extends State<PaymentSummary> {
 
   @override
   Widget build(BuildContext context) {
+    ReviewCartProvider reviewCartProvider = Provider.of(context);
+    reviewCartProvider.getReviewCartData();
+
+    double discount = 30;
+    double discountValue;
+    double shippingChanrge = 3.7;
+    double total;
+    double totalPrice = reviewCartProvider.getTotalPrice();
+    if (totalPrice > 300) {
+      discountValue = (totalPrice * discount) / 100;
+      total = totalPrice - discountValue;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -27,7 +48,7 @@ class _PaymentSummaryState extends State<PaymentSummary> {
       bottomNavigationBar: ListTile(
         title: Text("Total Amount"),
         subtitle: Text(
-          "\$300",
+          "\$${total + 5 ?? totalPrice}",
           style: TextStyle(
             color: Colors.green[900],
             fontWeight: FontWeight.bold,
@@ -37,7 +58,18 @@ class _PaymentSummaryState extends State<PaymentSummary> {
         trailing: Container(
           width: 160,
           child: MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              // myType == AddressTypes.OnlinePayment
+              //     ? Navigator.of(context).push(
+              //         MaterialPageRoute(
+              //           builder: (context) => MyGooglePay(
+              //             total: total,
+              //           ),
+              //         ),
+              //       )
+              //     : Container();
+            
+            },
             child: Text(
               "Pleace Order",
               style: TextStyle(
@@ -58,23 +90,29 @@ class _PaymentSummaryState extends State<PaymentSummary> {
           itemBuilder: (context, index) {
             return Column(
               children: [
-                ListTile(
-                  title: Text("First & Last Name"),
-                  subtitle: Text(
-                    "aera, balochistan/pakistan, Dara Bugti, street, 20, society 07, pincode 8000",
-                  ),
+                SingleDeliveryItem(
+                  address:
+                      "aera, ${widget.deliverAddressList.aera}, street, ${widget.deliverAddressList.street}, society ${widget.deliverAddressList.scoirty}, pincode ${widget.deliverAddressList.pinCode}",
+                  title:
+                      "${widget.deliverAddressList.firstName} ${widget.deliverAddressList.lastName}",
+                  number: widget.deliverAddressList.mobileNo,
+                  addressType: widget.deliverAddressList.addressType ==
+                          "AddressTypes.Home"
+                      ? "Home"
+                      : widget.deliverAddressList.addressType ==
+                              "AddressTypes.Other"
+                          ? "Other"
+                          : "Work",
                 ),
                 Divider(),
                 ExpansionTile(
-                  children: [
-                    OrderItem(),
-                    OrderItem(),
-                    OrderItem(),
-                    OrderItem(),
-                    OrderItem(),
-                    OrderItem(),
-                  ],
-                  title: Text("Order Items 6"),
+                  children: reviewCartProvider.getReviewCartDataList.map((e) {
+                    return OrderItem(
+                      e: e,
+                    );
+                  }).toList(),
+                  title: Text(
+                      "Order Items ${reviewCartProvider.getReviewCartDataList.length}"),
                 ),
                 Divider(),
                 ListTile(
@@ -86,7 +124,7 @@ class _PaymentSummaryState extends State<PaymentSummary> {
                     ),
                   ),
                   trailing: Text(
-                    "\$200",
+                    "\$${totalPrice + 5}",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -99,7 +137,7 @@ class _PaymentSummaryState extends State<PaymentSummary> {
                     style: TextStyle(color: Colors.grey[600]),
                   ),
                   trailing: Text(
-                    "\$0",
+                    "\$$discountValue",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -125,7 +163,7 @@ class _PaymentSummaryState extends State<PaymentSummary> {
                 RadioListTile(
                   value: AddressTypes.Home,
                   groupValue: myType,
-                  title: Text("Work"),
+                  title: Text("Home"),
                   onChanged: (AddressTypes value) {
                     setState(() {
                       myType = value;

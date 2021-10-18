@@ -140,6 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+
   Widget _buildRootProduct() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,10 +203,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    ProductProvider productProvider = Provider.of(context, listen: false);
-    productProvider.fatchHerbsProductData();
-    productProvider.fatchFreshProductData();
-    productProvider.fatchRootProductData();
+    ProductProvider initproductProvider = Provider.of(context, listen: false);
+    initproductProvider.fatchHerbsProductData();
+    initproductProvider.fatchFreshProductData();
+    initproductProvider.fatchRootProductData();
     super.initState();
   }
 

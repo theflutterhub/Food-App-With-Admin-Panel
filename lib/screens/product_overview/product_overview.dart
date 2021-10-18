@@ -113,6 +113,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                     wishListName: widget.productName,
                     wishListPrice: widget.productPrice,
                     wishListQuantity: 2,
+                    
                   );
                 } else {
                   wishListProvider.deleteWishtList(widget.productId);
@@ -201,6 +202,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                           productImage: widget.productImage,
                           productName: widget.productName,
                           productPrice: widget.productPrice,
+                          productUnit: '500 Gram',
                         ),
                         // Container(
                         //   padding: EdgeInsets.symmetric(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:food_app/config/colors.dart';
 import 'package:food_app/models/product_model.dart';
 import 'package:food_app/widgets/single_item.dart';
 
